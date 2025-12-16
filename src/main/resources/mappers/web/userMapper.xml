@@ -5,6 +5,12 @@
 <!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
 <mapper namespace="com.news.mapper.web.UserMapper">
     <select id="login" resultType="com.news.domain.User" >
-        select user_id,user_name,gender,introduction,role,avatar from t_user where user_name=#{user_name} and user_password=#{user_password};
+        select user_id,user_name,gender,introduction,role,avatar from t_user where user_name=#{user_name} and user_password=MD5(#{user_password});
+    </select>
+    <select id="register" resultType="com.news.domain.Register" statementType="CALLABLE" >
+        CALL P_REGISTER(#{user_name},#{user_password});
+    </select>
+    <select id="searchUsers" resultType="com.news.domain.User" >
+        select user_id,user_name,avatar from t_user where user_name like concat('%',#{user_name},'%');
     </select>
 </mapper>

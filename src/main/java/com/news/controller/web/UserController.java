@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 @Controller
+@RequestMapping("/webapi/user")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;

@@ -6,7 +6,6 @@ import com.news.domain.User;
 import com.news.mapper.web.UserMapper;
 import com.news.service.web.UserService;
 import com.news.utils.SessionManager;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private SessionManager sessionManager;
 
 
     @Override
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(400,"参数错误","参数不能为空" );
         User user = userMapper.login(user_name,user_password);
         if (user != null){
-            new SessionManager().registerSession(user_name,session);
+            sessionManager.registerSession(user.getUser_id(),user.getUser_name(),session);
             return  new Response<>(200,"登录成功", "ok",user);
         }
         else
